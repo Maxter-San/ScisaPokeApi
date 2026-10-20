@@ -2,10 +2,19 @@ namespace ScisaPokeApi.Models;
 
 public class PokemonIndexViewModel
 {
+    public List<PokemonDto> Pokemons { get; set; } = new();
+    public List<SelectOptionDto> AvailableSpecies { get; set; } = new();
+
+    //Filtro
     public string SearchTerm { get; set; } = string.Empty;
     public string SelectedSpecie { get; set; } = string.Empty;
-    public List<SelectOptionDto> AvailableSpecies { get; set; } = new();
-    public List<PokemonDto> Pokemons { get; set; } = new();
+
+    //Paginación
+    public int PageNumber { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+    public int TotalPages { get; set; }
+    public bool HasPreviousPage => PageNumber > 1;
+    public bool HasNextPage => PageNumber < TotalPages;
 }
 
 public class PokemonDto

@@ -17,18 +17,24 @@ public class PokemonController : Controller
         _pokeApiService = pokeApiService;
     }
 
-    public async Task<IActionResult> Index(string? searchTerm, string? selectedSpecie)
+    public async Task<IActionResult> Index(string? searchTerm, string? selectedSpecie, int? page)
     {
+        int pageSize = 10;
+        int pageNumber = page ?? 1;
+
         var speciesOptions = await _pokeApiService.GetSpeciesOptionsAsync();
 
-        var pokemons = await _pokeApiService.GetPokemonsAsync(searchTerm, selectedSpecie);
+        var pagedResult = await _pokeApiService.GetPagedPokemonsAsync(searchTerm, selectedSpecie, pageNumber, pageSize);
 
         var viewModel = new PokemonIndexViewModel
         {
             SearchTerm = searchTerm ?? string.Empty,
             SelectedSpecie = selectedSpecie ?? string.Empty,
             AvailableSpecies = speciesOptions,
-            Pokemons = pokemons
+            Pokemons = pagedResult.Items,
+            PageSize = pageSize,
+            PageNumber = pageNumber,
+            TotalPages = pagedResult.TotalPages
         };
 
         return View(viewModel);

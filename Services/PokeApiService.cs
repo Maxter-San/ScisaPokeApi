@@ -74,6 +74,26 @@ public class PokeApiService
 
         return query.ToList();
     }
+
+    public async Task<Paginacion<PokemonDto>> GetPagedPokemonsAsync(string? searchTerm, string? selectedSpecie, int pageNumber, int pageSize)
+    {
+        var allPokemons = await GetPokemonsAsync(searchTerm, selectedSpecie);
+
+        int totalItems = allPokemons.Count;
+
+        var pagedItems = allPokemons
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return new Paginacion<PokemonDto>
+        {
+            Items = pagedItems,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalItems = totalItems
+        };
+    }
 }
 
 public class PokeApiSpeciesListResult
