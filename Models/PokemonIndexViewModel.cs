@@ -5,6 +5,7 @@ public class PokemonIndexViewModel
     public string SearchTerm { get; set; } = string.Empty;
     public string SelectedSpecie { get; set; } = string.Empty;
     public List<SelectOptionDto> AvailableSpecies { get; set; } = new();
+    public List<PokemonDto> Pokemons { get; set; } = new();
 }
 
 public class PokemonDto

@@ -11,7 +11,7 @@
             <div class="col-sm-6 col-md-3">
                 <label for="especiePkmn" class="form-label">Especie:</label>
                 <select class="form-select" id="especiePkmn" name="selectedSpecie">
-                    <option value="">-Todos-</option>
+                    <option value="0">-Todos-</option>
                     @foreach (var especie in Model.AvailableSpecies)
                     {
                         <option value="@especie.Name"

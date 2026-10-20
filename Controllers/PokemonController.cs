@@ -21,11 +21,14 @@ public class PokemonController : Controller
     {
         var speciesOptions = await _pokeApiService.GetSpeciesOptionsAsync();
 
+        var pokemons = await _pokeApiService.GetPokemonsAsync(searchTerm, selectedSpecie);
+
         var viewModel = new PokemonIndexViewModel
         {
             SearchTerm = searchTerm ?? string.Empty,
             SelectedSpecie = selectedSpecie ?? string.Empty,
-            AvailableSpecies = speciesOptions
+            AvailableSpecies = speciesOptions,
+            Pokemons = pokemons
         };
 
         return View(viewModel);
