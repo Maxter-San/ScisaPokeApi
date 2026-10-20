@@ -29,3 +29,13 @@ public class SelectOptionDto
     public string Name { get; set; } = string.Empty;
     public string DisplayName { get; set; } = string.Empty;
 }
+
+public class PokemonDetailDto
+{
+    public int Id { get; set; } //# Pokedex
+    public string Name { get; set; } = string.Empty;
+    public string ImageUrl { get; set; } = string.Empty;
+    public string[] Types { get; set; } = [];
+    public double Height { get; set; }
+    public double Weight { get; set; }
+}

@@ -50,4 +50,24 @@ public class PokemonController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetDetail(int id)
+    {
+        try
+        {
+            var pokemonDetail = await _pokeApiService.GetPokemonDetailAsync(id);
+
+            if (pokemonDetail == null || pokemonDetail.Id == 0)
+            {
+                return NotFound(new { success = false, message = "Pokémon no encontrado." });
+            }
+
+            return Json(pokemonDetail);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { success = false, message = "Ocurrió un error al consultar el detalle." });
+        }
+    }
 }

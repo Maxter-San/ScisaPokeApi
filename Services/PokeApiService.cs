@@ -94,6 +94,27 @@ public class PokeApiService
             TotalItems = totalItems
         };
     }
+
+    public async Task<PokemonDetailDto> GetPokemonDetailAsync(int id)
+    {
+        var response = await _httpClient.GetFromJsonAsync<PokeApiPokemonDetailResource>($"pokemon/{id}");
+        var pokeDetail = new PokemonDetailDto();
+
+        if (response?.Id != 0)
+        {
+            pokeDetail = new PokemonDetailDto
+            {
+                Id = response.Id,
+                Name = response.Name,
+                ImageUrl = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/{response.Id}.png",
+                Height = response.Height / 10.0,
+                Weight = response.Weight / 10.0,
+                Types = response.Types.Select(t => t.Type.Name).ToArray()
+            };
+        }
+
+        return pokeDetail;
+    }
 }
 
 public class PokeApiSpeciesListResult
@@ -124,4 +145,31 @@ public class PokeApiPokemonResource
     public string Name { get; set; } = string.Empty;
     [JsonPropertyName("url")]
     public string Url { get; set; } = string.Empty;
+}
+
+public class PokeApiPokemonDetailResource
+{
+    [JsonPropertyName("id")]
+    public int Id { get; set; } = 0;
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("weight")]
+    public int Weight { get; set; }
+
+    [JsonPropertyName("height")]
+    public int Height { get; set; }
+
+    [JsonPropertyName("types")]
+    public List<PokemonTypeEntryResource> Types { get; set; } = new();
+}
+
+public class PokemonTypeEntryResource
+{
+    [JsonPropertyName("slot")]
+    public int Slot { get; set; }
+
+    [JsonPropertyName("type")]
+    public PokeApiSpecieResource Type { get; set; } = new(); //reutilizando formato
 }
