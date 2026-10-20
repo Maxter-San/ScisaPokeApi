@@ -2,6 +2,10 @@
     ViewData["Title"] = "Pokémons";
 }
 
+@section Scripts {
+    <script src="~/js/Pokemon/Index.js" asp-append-version="true"></script>
+}
+
 <div class="text-center">
     <h1 class="display-4">Prueba Técnica</h1>
     <p>Consumo de API de Pokémon con paginación</p>
@@ -12,3 +16,5 @@
 <partial name="Partials/_IndexTablaPartial" />
 
 <partial name="Partials/_IndexModalEnviarCorreoPartial" />
+
+<partial name="Partials/_IndexModalDetallePokemon" />
