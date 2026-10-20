@@ -6,3 +6,100 @@
     <h1 class="display-4">Prueba Técnica</h1>
     <p>Consumo de API de Pokémon con paginación</p>
 </div>
+
+<div class="container">
+    <div class="row pb-3">
+        <div class="col-sm-6 col-md-3">
+            <label for="nombrePkmn" class="form-label">Nombre:</label>
+            <input class="form-control" id="nombrePkmn" placeholder="Agumon">
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label for="especiePkmn" class="form-label">Especie:</label>
+            <select class="form-select" id="especiePkmn" aria-label="Default select example">
+                <option selected value="0">-Todos-</option>
+                <option value="1">Planta</option>
+                <option value="2">Agua</option>
+                <option value="3">Fuego</option>
+            </select>
+        </div>
+    </div>
+    <div class="row pb-3">
+        <div class="d-grid gap-2 col-sm-6 col-md-3">
+            <button type="button" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
+        </div>
+        <div class="d-grid gap-2 col-sm-6 col-md-3">
+            <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Exportar toda la búsqueda a Excel">
+                <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
+            </button>
+        </div>
+        <div class="d-grid gap-2 col-sm-6 col-md-3">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Enviar toda la búsqueda por correo">
+                <i class="bi bi-envelope"></i> Enviar por Correo
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/1.png"
+                         alt="{Pokemon}" width="100" height="100" />
+                </td>
+                <td>Bulbasaur</td>
+                <td>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Enviar información de {pokemon} por correo">
+                        <i class="bi bi-envelope"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/2.png"
+                         alt="{Pokemon}" width="100" height="100" />
+                </td>
+                <td>Ivysaur</td>
+                <td>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Enviar información de {pokemon} por correo">
+                        <i class="bi bi-envelope"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/3.png"
+                         alt="{Pokemon}" width="100" height="100" />
+                </td>
+                <td>Venusaur</td>
+                <td>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Enviar información de {pokemon} por correo">
+                        <i class="bi bi-envelope"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container d-flex justify-content-between align-items-center mt-4">
+        <a class="btn btn-secondary"><i class="bi bi-chevron-left"></i> Anterior</a>
+        <label>página 1 de 1</label>
+        <a class="btn btn-secondary">Siguiente <i class="bi bi-chevron-right"></i></a>
+    </div>
+</div>
