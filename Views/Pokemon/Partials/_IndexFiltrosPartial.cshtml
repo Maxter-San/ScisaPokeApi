@@ -1,33 +1,42 @@
+@model ScisaPokeApi.Models.PokemonIndexViewModel
+
 <div class="container">
-    <div class="row pb-3">
-        <div class="col-sm-6 col-md-3">
-            <label for="nombrePkmn" class="form-label">Nombre:</label>
-            <input class="form-control" id="nombrePkmn" placeholder="Agumon">
+    <form method="get" asp-action="Index">
+        <div class="row pb-3">
+            <div class="col-sm-6 col-md-3">
+                <label for="nombrePkmn" class="form-label">Nombre:</label>
+                <input class="form-control" id="nombrePkmn" placeholder="Agumon" name="searchTerm"
+                       value="@Model.SearchTerm">
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <label for="especiePkmn" class="form-label">Especie:</label>
+                <select class="form-select" id="especiePkmn" name="selectedSpecie">
+                    <option value="">-Todos-</option>
+                    @foreach (var especie in Model.AvailableSpecies)
+                    {
+                        <option value="@especie.Name"
+                                selected="@(especie.Name == Model.SelectedSpecie ? "selected" : null)">
+                            @especie.DisplayName
+                        </option>
+                    }
+                </select>
+            </div>
         </div>
-        <div class="col-sm-6 col-md-3">
-            <label for="especiePkmn" class="form-label">Especie:</label>
-            <select class="form-select" id="especiePkmn" aria-label="Default select example">
-                <option selected value="0">-Todos-</option>
-                <option value="1">Planta</option>
-                <option value="2">Agua</option>
-                <option value="3">Fuego</option>
-            </select>
+        <div class="row pb-3">
+            <div class="d-grid gap-2 col-sm-6 col-md-3">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
+            </div>
+            <div class="d-grid gap-2 col-sm-6 col-md-3">
+                <button type="button" class="btn btn-success">
+                    <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
+                </button>
+            </div>
+            <div class="d-grid gap-2 col-sm-6 col-md-3">
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                        data-bs-target="#modalEnviarCorreo">
+                    <i class="bi bi-envelope"></i> Enviar por Correo
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="row pb-3">
-        <div class="d-grid gap-2 col-sm-6 col-md-3">
-            <button type="button" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
-        </div>
-        <div class="d-grid gap-2 col-sm-6 col-md-3">
-            <button type="button" class="btn btn-success">
-                <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
-            </button>
-        </div>
-        <div class="d-grid gap-2 col-sm-6 col-md-3">
-            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                    data-bs-target="#modalEnviarCorreo">
-                <i class="bi bi-envelope"></i> Enviar por Correo
-            </button>
-        </div>
-    </div>
+    </form>
 </div>

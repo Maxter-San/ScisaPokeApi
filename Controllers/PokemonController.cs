@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ScisaPokeApi.Models;
+using ScisaPokeApi.Services;
 
 namespace ScisaPokeApi.Controllers;
 
@@ -8,14 +9,26 @@ public class PokemonController : Controller
 {
     private readonly ILogger<PokemonController> _logger;
 
-    public PokemonController(ILogger<PokemonController> logger)
+    private readonly PokeApiService _pokeApiService;
+
+    public PokemonController(ILogger<PokemonController> logger, PokeApiService pokeApiService)
     {
         _logger = logger;
+        _pokeApiService = pokeApiService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string? searchTerm, string? selectedSpecie)
     {
-        return View();
+        var speciesOptions = await _pokeApiService.GetSpeciesOptionsAsync();
+
+        var viewModel = new PokemonIndexViewModel
+        {
+            SearchTerm = searchTerm ?? string.Empty,
+            SelectedSpecie = selectedSpecie ?? string.Empty,
+            AvailableSpecies = speciesOptions
+        };
+
+        return View(viewModel);
     }
 
     public IActionResult Info()

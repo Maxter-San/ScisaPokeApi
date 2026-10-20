@@ -1,4 +1,9 @@
+using ScisaPokeApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Mis controllers
+builder.Services.AddHttpClient<PokeApiService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
