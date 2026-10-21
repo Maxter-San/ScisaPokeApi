@@ -71,3 +71,9 @@ Decisiones técnicas tomadas durante el desarrollo:
     * **Camino elegido:** Uso de Gemini IA para validar bloques de código especificos, evaluación en calidad de código y busqueda de oportunidades de mejora.
     * **Alternativa descartada:** Utilizar Claude IA pese a su facilidad de acceder al proyecto directamente, prefiero tener el control y panorama completo de los cambios realizados y no confiar ciegamente en los cambios como `PKMN-2026-A7`
 
+5. Pokémons:
+    * Por cuestiones de practicidad decidí mostrar solo los primeros 151 pokemons.
+
+6. Especies pokémon:
+    * **Camino elegido:** Manejo del concepto "especie" como su nombre y variedad.
+    * **Alternativa descartada:** Utilizar "tipo" no iba de acuerdo a lo solicitado.
