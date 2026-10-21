@@ -18,11 +18,13 @@ Aplicación web desarrollada en **.NET Core 8** con arquitectura MVC, que consum
 ## Configuración y Ejecución
 
 1. Clonar el repositorio:
-   git clone [https://github.com/Maxter-San/ScisaPokeApi](https://github.com/Maxter-San/ScisaPokeApi)
+    ```json
+    git clone [https://github.com/Maxter-San/ScisaPokeApi](https://github.com/Maxter-San/ScisaPokeApi)
 
 2. Abrir el proyecto en Visual Studio Code o tu IDE preferido.
 
 3. Restaurar las dependencias e iniciar el proyecto:
+    ```json
     dotnet restore
     dotnet run
 
@@ -35,6 +37,7 @@ Para que el envío de correos funcione correctamente, es necesario configurar la
 1. Abre el archivo appsettings.json en la raíz del proyecto.
 
 2. Localiza la sección "EmailSettings":
+    ```json
     "EmailSettings": {
         "Server": "smtp.gmail.com",
         "Port": 587,
@@ -66,5 +69,5 @@ Decisiones técnicas tomadas durante el desarrollo:
 
 4. Uso de IAs:
     * **Camino elegido:** Uso de Gemini IA para validar bloques de código especificos, evaluación en calidad de código y busqueda de oportunidades de mejora.
-    * **Alternativa descartada:** Utilizar Claude IA pese a su facilidad de acceder al proyecto directamente, prefiero tener el control y panorama completo de los cambios realizados y no confiar ciegamente en los cambios como PKMN-2026-A7
+    * **Alternativa descartada:** Utilizar Claude IA pese a su facilidad de acceder al proyecto directamente, prefiero tener el control y panorama completo de los cambios realizados y no confiar ciegamente en los cambios como `PKMN-2026-A7`
 
