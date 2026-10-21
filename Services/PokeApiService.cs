@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ScisaPokeApi.Models;
+using ClosedXML.Excel;
 
 namespace ScisaPokeApi.Services;
 
@@ -114,6 +115,34 @@ public class PokeApiService
         }
 
         return pokeDetail;
+    }
+
+    public byte[] ExportPokemonsToExcel(List<PokemonDto> pokemons)
+    {
+        using var workbook = new XLWorkbook();
+        var worksheet = workbook.Worksheets.Add("Pokemons Visibles");
+
+        worksheet.Cell(1, 1).Value = "# Pokédex";
+        worksheet.Cell(1, 2).Value = "Nombre";
+        worksheet.Cell(1, 3).Value = "URL Imagen";
+
+        var headerRow = worksheet.Row(1);
+        headerRow.Style.Font.Bold = true;
+
+        int row = 2;
+        foreach (var pokemon in pokemons)
+        {
+            worksheet.Cell(row, 1).Value = pokemon.Id;
+            worksheet.Cell(row, 2).Value = char.ToUpper(pokemon.Name[0]) + pokemon.Name.Substring(1);
+            worksheet.Cell(row, 3).Value = pokemon.ImageUrl;
+            row++;
+        }
+
+        worksheet.Columns().AdjustToContents();
+
+        using var stream = new MemoryStream();
+        workbook.SaveAs(stream);
+        return stream.ToArray();
     }
 }
 

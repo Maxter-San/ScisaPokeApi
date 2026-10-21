@@ -70,4 +70,31 @@ public class PokemonController : Controller
             return StatusCode(500, new { success = false, message = "Ocurrió un error al consultar el detalle." });
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> ExportToExcel(string? searchTerm, string? selectedSpecie)
+    {
+        try
+        {
+            var result = await _pokeApiService.GetPokemonsAsync(searchTerm, selectedSpecie);
+
+            if (result == null || !result.Any())
+            {
+                TempData["ErrorMessage"] = "No se encontraron Pokémons para exportar a excel.";
+                return RedirectToAction(nameof(Index), new { searchTerm, selectedSpecie });
+            }
+
+            byte[] excelBytes = _pokeApiService.ExportPokemonsToExcel(result);
+
+            string fileName = $"Pokemons_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            return File(excelBytes, contentType, fileName);
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = "Ocurrió un problema al generar el archivo Excel. Inténtalo nuevamente.";
+            return RedirectToAction(nameof(Index), new { searchTerm, selectedSpecie });
+        }
+    }
 }
