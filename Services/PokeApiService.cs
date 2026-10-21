@@ -2,21 +2,31 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ScisaPokeApi.Models;
 using ClosedXML.Excel;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ScisaPokeApi.Services;
 
 public class PokeApiService
 {
     private readonly HttpClient _httpClient;
+    private readonly IMemoryCache _memoryCache;
 
-    public PokeApiService(HttpClient httpClient)
+    public PokeApiService(HttpClient httpClient, IMemoryCache memoryCache)
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+        _memoryCache = memoryCache;
     }
 
     public async Task<List<SelectOptionDto>> GetSpeciesOptionsAsync(int limit = 151)
     {
+        string cacheKey = "pokemon_species_list";
+
+        if (_memoryCache.TryGetValue(cacheKey, out List<SelectOptionDto>? cachedSpecies) && cachedSpecies != null)
+        {
+            return cachedSpecies;
+        }
+
         var response = await _httpClient.GetFromJsonAsync<PokeApiSpeciesListResult>($"pokemon-species?limit={limit}");
         var options = new List<SelectOptionDto>();
 
@@ -31,6 +41,12 @@ public class PokeApiService
                 });
             }
         }
+
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+        .SetAbsoluteExpiration(TimeSpan.FromMinutes(30))
+        .SetSlidingExpiration(TimeSpan.FromMinutes(10));
+
+        _memoryCache.Set(cacheKey, options, cacheEntryOptions);
 
         return options;
     }
