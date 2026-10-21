@@ -1,9 +1,12 @@
+using ScisaPokeApi.Models;
 using ScisaPokeApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Mis controllers
 builder.Services.AddHttpClient<PokeApiService>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -29,14 +29,13 @@
             <div class="d-grid gap-2 col-sm-6 col-md-3">
                 <a class="btn btn-success" asp-action="ExportToExcel" asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-selectedSpecie="@Model.SelectedSpecie" asp-route-page="@Model.PageNumber"
-                   data-bs-toggle="tooltip" data-bs-placement="top"
-                   title="Exportar los Pokémon filtrados a Excel">
+                   data-bs-toggle="tooltip" data-bs-placement="top" title="Exportar los Pokémon filtrados a Excel">
                     <i class="bi bi-file-earmark-excel"></i> Exportar a Excel
                 </a>
             </div>
             <div class="d-grid gap-2 col-sm-6 col-md-3">
                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                        data-bs-target="#modalEnviarCorreo">
+                        data-bs-target="#modalEnviarCorreo" data-tipo="general" title="Enviar catálogo filtrado por correo">
                     <i class="bi bi-envelope"></i> Enviar por Correo
                 </button>
             </div>

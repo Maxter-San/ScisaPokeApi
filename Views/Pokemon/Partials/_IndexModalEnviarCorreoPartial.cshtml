@@ -2,22 +2,29 @@
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalEnviarCorreoLabel">Enviar por correo</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
+            <form id="formEnviarCorreo" asp-action="EnviarCorreo" method="post">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalEnviarCorreoLabel">Enviar por correo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Campos ocultos para filtros -->
+                    <input type="hidden" id="tipoEnvio" name="tipoEnvio" value="" />
+                    <input type="hidden" id="pokemonId" name="pokemonId" value="" />
+                    <input type="hidden" name="searchTerm" value="@Model.SearchTerm" />
+                    <input type="hidden" name="selectedSpecie" value="@Model.SelectedSpecie" />
+
                     <div class="mb-3">
-                        <label for="txtCorreo" class="col-form-label">Correo:</label>
-                        <input type="email" class="form-control" id="txtCorreo" placeholder="name@example.com">
+                        <label for="txtCorreo" class="col-form-label">Correo electrónico:</label>
+                        <input type="email" class="form-control" id="txtCorreo" name="destinatario"
+                               placeholder="name@example.com" required>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Enviar</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="btnSubmitCorreo">Enviar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

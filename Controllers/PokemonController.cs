@@ -10,11 +10,13 @@ public class PokemonController : Controller
     private readonly ILogger<PokemonController> _logger;
 
     private readonly PokeApiService _pokeApiService;
+    private readonly IEmailService _emailService;
 
-    public PokemonController(ILogger<PokemonController> logger, PokeApiService pokeApiService)
+    public PokemonController(ILogger<PokemonController> logger, PokeApiService pokeApiService, IEmailService emailService)
     {
         _logger = logger;
         _pokeApiService = pokeApiService;
+        _emailService = emailService;
     }
 
     public async Task<IActionResult> Index(string? searchTerm, string? selectedSpecie, int? page)
@@ -96,5 +98,73 @@ public class PokemonController : Controller
             TempData["ErrorMessage"] = "Ocurrió un problema al generar el archivo Excel. Inténtalo nuevamente.";
             return RedirectToAction(nameof(Index), new { searchTerm, selectedSpecie });
         }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EnviarCorreo(string destinatario, string tipoEnvio, int? pokemonId, string? searchTerm, string? selectedSpecie)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(destinatario))
+            {
+                TempData["ErrorMessage"] = "Debe proporcionar un correo electrónico válido.";
+                return RedirectToAction(nameof(Index), new { searchTerm, selectedSpecie });
+            }
+
+            string asunto = "";
+            string cuerpoHtml = "";
+
+            if (tipoEnvio == "individual" && pokemonId.HasValue)
+            {
+                var pokemon = await _pokeApiService.GetPokemonDetailAsync(pokemonId.Value);
+
+                if (pokemon == null || pokemon.Id == 0)
+                {
+                    TempData["ErrorMessage"] = "No se encontró el Pokémon seleccionado.";
+                    return RedirectToAction(nameof(Index), new { searchTerm, selectedSpecie });
+                }
+
+                asunto = $"Detalles del Pokémon {pokemon.Name}";
+
+                cuerpoHtml = $"""
+                    <h2>Información</h2>
+                    <p><strong>Nombre:</strong> {pokemon.Name}</p>
+                    <p><strong># Pokédex:</strong> {pokemon.Id}</p>
+                    <p><strong>Altura:</strong> {pokemon.Height} m</p>
+                    <p><strong>Peso:</strong> {pokemon.Weight} kg</p>
+                    <p><strong>Tipos:</strong> {string.Join(", ", pokemon.Types)}</p>
+                    <img src="{pokemon.ImageUrl}" alt="{pokemon.Name}" width="150" />
+                """;
+            }
+            else
+            {
+                var pokemons = await _pokeApiService.GetPokemonsAsync(searchTerm, selectedSpecie);
+
+                if (pokemons.Count == 0)
+                {
+                    TempData["ErrorMessage"] = "No se encontraron Pokémons.";
+                    return RedirectToAction(nameof(Index), new { searchTerm, selectedSpecie });
+                }
+
+                asunto = "Catálogo de Pokémons";
+                cuerpoHtml = "<h2>Listado de Pokémon</h2><ul>";
+                foreach (var p in pokemons)
+                {
+                    cuerpoHtml += $"<li>#{p.Id} - {p.Name}</li>";
+                }
+                cuerpoHtml += "</ul>";
+            }
+
+            await _emailService.SendEmailAsync(destinatario, asunto, cuerpoHtml);
+
+            TempData["SuccessMessage"] = "¡Correo enviado exitosamente!";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al enviar el correo electrónico a {Destinatario}", destinatario);
+            TempData["ErrorMessage"] = "Ocurrió un error al intentar enviar el correo. Inténtalo más tarde.";
+        }
+
+        return RedirectToAction(nameof(Index), new { searchTerm, selectedSpecie });
     }
 }

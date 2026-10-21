@@ -51,3 +51,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const modalEnviarCorreo = document.getElementById('modalEnviarCorreo');
+
+    if (modalEnviarCorreo) {
+        modalEnviarCorreo.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const tipo = button.getAttribute('data-tipo');
+            
+            const inputTipo = document.getElementById('tipoEnvio');
+            const inputPokemonId = document.getElementById('pokemonId');
+            const infoTexto = document.getElementById('infoEnvioTexto');
+
+            inputTipo.value = tipo;
+
+            if (tipo === 'individual') {
+                const pokemonId = button.getAttribute('data-id');
+                inputPokemonId.value = pokemonId;
+                infoTexto.textContent = `Se le enviará la información detallada del Pokémon por correo.`;
+            } else {
+                inputPokemonId.value = '';
+                infoTexto.textContent = 'Se le enviará el listado de Pokémons actual filtrados.';
+            }
+        });
+    }
+});

@@ -13,15 +13,17 @@
         <tbody>
             @foreach (PokemonDto pokemon in Model.Pokemons)
             {
-                <tr data-bs-toggle="modal" data-bs-target="#modalDetallePokemon" data-id="@pokemon.Id" data-nombre="@pokemon.Name">
+                <tr data-bs-toggle="modal" data-bs-target="#modalDetallePokemon" data-id="@pokemon.Id"
+                    data-nombre="@pokemon.Name">
                     <th scope="row"></th>
                     <td>
                         <img src="@pokemon.ImageUrl" alt="@pokemon.Name img" width="100" height="100" />
                     </td>
                     <td>@pokemon.Name</td>
                     <td>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                                data-bs-target="#modalEnviarCorreo">
+                        <button type="button" class="btn btn-outline-secondary btn-enviar-individual" data-bs-toggle="modal"
+                                data-bs-target="#modalEnviarCorreo" data-tipo="individual" data-id="@pokemon.Id"
+                                title="Enviar este Pokémon por correo">
                             <i class="bi bi-envelope"></i>
                         </button>
                     </td>
